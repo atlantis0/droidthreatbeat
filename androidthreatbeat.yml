@@ -4,7 +4,10 @@
 
 androidthreatbeat:
   # Defines how often an event is sent to the output
-  period: 1s
+  period: 30s
+  # Defines the path of threat file
+  # default is threats.json
+  threat_file: '${THREAT_FILE_PATH}:threats.json'
 
 # ================================== General ===================================
 
@@ -70,15 +73,15 @@ setup.kibana:
 # ---------------------------- Elasticsearch Output ----------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["localhost:9200"]
+  hosts: ["mtd.es.europe-west3.gcp.cloud.es.io:9243"]
 
   # Protocol - either `http` (default) or `https`.
-  #protocol: "https"
+  protocol: "https"
 
   # Authentication credentials - either API key or username/password.
   #api_key: "id:api_key"
-  #username: "elastic"
-  #password: "changeme"
+  username: "elastic"
+  password: "7yzZLfZfMlW2pW88Bq6vxyUe"
 
 # ------------------------------ Logstash Output -------------------------------
 #output.logstash:

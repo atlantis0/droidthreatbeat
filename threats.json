@@ -1,0 +1,22 @@
+[
+    {
+        "type": "APP_FROM_UNKNOWN_SOURCE",
+        "category": "DEVICE",
+        "severity": "MEDIUM"
+    },
+    {
+        "type": "USB_DEBUGGING_ENABLED",
+        "category": "DEVICE",
+        "severity": "LOW"
+    },
+    {
+        "type": "DEV_MODE_ENABLED",
+        "category": "DEVICE",
+        "severity": "LOW"
+    },
+    {
+        "type": "UNKNOWN_SOURCE_INSTALLATION",
+        "category": "DEVICE",
+        "severity": "MEDIUM"
+    }
+]

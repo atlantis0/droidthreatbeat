@@ -1,7 +1,9 @@
 package beater
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"time"
 
 	"github.com/elastic/beats/v7/libbeat/beat"
@@ -10,6 +12,13 @@ import (
 
 	"github.com/atlantis0/androidthreatbeat/config"
 )
+
+// Threat - threat object
+type Threat struct {
+	Category string `json:"category"`
+	Vector   string `json:"type"`
+	Severity string `json:"severity"`
+}
 
 // androidthreatbeat configuration.
 type androidthreatbeat struct {
@@ -51,14 +60,32 @@ func (bt *androidthreatbeat) Run(b *beat.Beat) error {
 		case <-ticker.C:
 		}
 
-		event := beat.Event{
-			Timestamp: time.Now(),
-			Fields: common.MapStr{
-				"type":    b.Info.Name,
-				"counter": counter,
-			},
+		//bt.config.ThreatFilePath
+		// TODO - read json file
+		threatFileData, err := ioutil.ReadFile(bt.config.ThreatFilePath)
+		if err != nil {
+			return err
 		}
-		bt.client.Publish(event)
+		var threat []Threat
+		decodeErr := json.Unmarshal(threatFileData, &threat)
+		if decodeErr != nil {
+			return decodeErr
+		}
+		events := make([]beat.Event, len(threat))
+		for i := 0; i < len(threat); i++ {
+			event := beat.Event{
+				Timestamp: time.Now(),
+				Fields: common.MapStr{
+					"type":     b.Info.Name,
+					"category": threat[i].Category,
+					"severity": threat[i].Severity,
+					"vector":   threat[i].Vector,
+				},
+			}
+			events[i] = event
+		}
+
+		bt.client.PublishAll(events)
 		logp.Info("Event sent")
 		counter++
 	}

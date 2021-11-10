@@ -6,9 +6,11 @@ package config
 import "time"
 
 type Config struct {
-	Period time.Duration `config:"period"`
+	Period         time.Duration `config:"period"`
+	ThreatFilePath string        `config:"threat_file"`
 }
 
 var DefaultConfig = Config{
-	Period: 1 * time.Second,
+	Period:         30 * time.Second,
+	ThreatFilePath: "threats.json",
 }

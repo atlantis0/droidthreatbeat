@@ -1,6 +1,21 @@
-# {Beat}
+# {Android Beat}
 
-Welcome to {Beat}.
+Welcome to {Beat}. This project has the ncessary files to push android threat data to a remote elastic server. To make
+this beat Android compatable few things are done
+
+1. Build for arm. `GOOS=android GOARCH=arm64 go build -ldflags "-s -w"`
+
+2. This beat internally uses the default `net` package for remote connection. This packages resolves DNS by consulting /etc/resolve.conf. But
+this file is not how DNS is resolved in the app. The issue is disscussed in detail here, https://github.com/coyove/goflyway/issues/126 &
+https://stackoverflow.com/questions/38959067/dns-lookup-issue-when-running-my-go-app-in-termux 
+
+3. Hence the workaround is to use relfection and modify internal structures like this one `resolvConf.dnsConfig.servers`
+
+4. See workaround here, https://gist.github.com/cs8425/107e01a0652f1f1f6e033b5b68364b5e & https://github.com/mtibben/androiddnsfix
+
+More details on the "why" can be found on this blog,
+
+https://ismyapppwned.com/2021/02/26/elastic_beats_android/
 
 Ensure that this folder is at the following location:
 `${GOPATH}/src/github.com/atlantis0/androidthreatbeat`
@@ -48,6 +63,13 @@ To run {Beat} with debugging output enabled, run:
 ./androidthreatbeat -c androidthreatbeat.yml -e -d "*"
 ```
 
+On Device, use the following command 
+
+```
+/data/app/com.pwned.check-fyat6LhhXre1y_rhWG5xpg==/lib/arm64/androidthreatbeat -c /data/user/0/com.pwned.check/files/elastic/androidthreatbeat.yml --path.data /data/user/0/com.pwned.check/files/elastic/data --path.logs /data/user/0/com.pwned.check/files/elastic/logs --E THREAT_FILE_PATH=/data/user/0/com.pwned.check/files/threats.json -e -d run
+```
+
+Make sure to pass threat file path by using env variable. `-E THREAT_FILE_PATH=/path/to/threat.json`
 
 ### Test
 

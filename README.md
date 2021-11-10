@@ -1,6 +1,6 @@
-# {Android Beat}
+# Android Beat
 
-Welcome to {Beat}. This project has the ncessary files to push android threat data to a remote elastic server. To make
+Welcome to {Beat}. This project has the necessary files to push android threat data to a remote elastic server. To make
 this beat Android compatable few things are done
 
 1. Build for arm. `GOOS=android GOARCH=arm64 go build -ldflags "-s -w"`
@@ -20,7 +20,7 @@ https://ismyapppwned.com/2021/02/26/elastic_beats_android/
 Ensure that this folder is at the following location:
 `${GOPATH}/src/github.com/atlantis0/androidthreatbeat`
 
-## Getting Started with {Beat}
+## Getting Started with Beat
 
 ### Requirements
 

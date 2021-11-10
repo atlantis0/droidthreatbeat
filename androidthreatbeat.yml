@@ -6,8 +6,8 @@ androidthreatbeat:
   # Defines how often an event is sent to the output
   period: 30s
   # Defines the path of threat file
-  # default is threats.json
-  threat_file: '${THREAT_FILE_PATH}:threats.json'
+  # need to be prefilled duing cmd arg -E THREAT_FILE_PATH=/path/to/threats.json
+  threat_file: '${THREAT_FILE_PATH}'
 
 # ================================== General ===================================
 
